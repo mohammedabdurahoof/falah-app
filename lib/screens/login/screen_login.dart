@@ -1,7 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class ScreenLogin extends StatelessWidget {
+class ScreenLogin extends StatefulWidget {
   const ScreenLogin({super.key});
+
+  @override
+  State<ScreenLogin> createState() => _ScreenLoginState();
+}
+
+class _ScreenLoginState extends State<ScreenLogin> {
+  final emailController = TextEditingController();
+
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose(){
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +40,7 @@ class ScreenLogin extends StatelessWidget {
                   const SizedBox(height: 20),
                   // email
                   TextFormField(
+                    controller:emailController,
                     decoration: const InputDecoration(
                       hintText: 'Email',
                       border: OutlineInputBorder(),
@@ -30,6 +49,7 @@ class ScreenLogin extends StatelessWidget {
                   const SizedBox(height: 20),
                   // password
                   TextFormField(
+                    controller:passwordController,
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
@@ -40,7 +60,7 @@ class ScreenLogin extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: singIn,
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(100, 50),
                     ),
@@ -53,5 +73,12 @@ class ScreenLogin extends StatelessWidget {
         ]),
       ),
     );
+  }
+
+  Future singIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+    email: emailController.text.trim(),
+    password: passwordController.text.trim(),
+  );
   }
 }

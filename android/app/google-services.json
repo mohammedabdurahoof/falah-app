@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "830437501481",
+    "project_id": "falah-3fef5",
+    "storage_bucket": "falah-3fef5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830437501481:android:4f8ce43e12868d460c0a38",
+        "android_client_info": {
+          "package_name": "com.example.falah_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830437501481-44omfd3k6en8ivshod1cve9semmnpbkr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNPrTkTAoWhhBXx3jJhrgdXt2R4nRm1hw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830437501481-44omfd3k6en8ivshod1cve9semmnpbkr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
