@@ -1,6 +1,7 @@
 import 'package:falah_app/screens/History/screen_history.dart';
 import 'package:falah_app/screens/Profile/screen_profile.dart';
 import 'package:falah_app/screens/home/screen_home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ScreenMain extends StatefulWidget {
@@ -12,8 +13,8 @@ class ScreenMain extends StatefulWidget {
 
 class _ScreenMainState extends State<ScreenMain> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  // static const TextStyle optionStyle =
+  //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     ScreenHome(),
     ScreenHistory(),
@@ -28,11 +29,13 @@ class _ScreenMainState extends State<ScreenMain> {
 
   @override
   Widget build(BuildContext context) {
+    // final user = FirebaseAuth.instance.currentUser!;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('FALAH'),
         // leading: Image(image: AssetImage('assets/image/logo.png')),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.logout))],
+        actions: [IconButton(onPressed: () =>FirebaseAuth.instance.signOut(), icon: const Icon(Icons.logout))],
       ),
       body: SafeArea(
         child: Center(

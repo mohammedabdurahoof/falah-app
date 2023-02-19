@@ -1,4 +1,8 @@
+// ignore_for_file: avoid_print
+
+import 'package:falah_app/screens/register/screen_register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class ScreenLogin extends StatefulWidget {
@@ -14,7 +18,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
   final passwordController = TextEditingController();
 
   @override
-  void dispose(){
+  void dispose() {
     emailController.dispose();
     passwordController.dispose();
 
@@ -40,7 +44,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
                   const SizedBox(height: 20),
                   // email
                   TextFormField(
-                    controller:emailController,
+                    controller: emailController,
                     decoration: const InputDecoration(
                       hintText: 'Email',
                       border: OutlineInputBorder(),
@@ -49,7 +53,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
                   const SizedBox(height: 20),
                   // password
                   TextFormField(
-                    controller:passwordController,
+                    controller: passwordController,
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
@@ -65,6 +69,32 @@ class _ScreenLoginState extends State<ScreenLogin> {
                       minimumSize: const Size(100, 50),
                     ),
                     child: const Text('Log In'),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      style: const TextStyle(color: Colors.black),
+                      text: "Don’t you have an account?  ",
+                      children: [
+                        TextSpan(
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ScreenRegister()),
+                              );
+                            },
+                          text: 'Sign up',
+                          style: const TextStyle(
+                            color: Colors.teal,
+                            decoration: TextDecoration.underline,
+                          ),
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -76,9 +106,17 @@ class _ScreenLoginState extends State<ScreenLogin> {
   }
 
   Future singIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-    email: emailController.text.trim(),
-    password: passwordController.text.trim(),
-  );
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
   }
 }
