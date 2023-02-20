@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class TopArea extends StatelessWidget {
@@ -5,6 +7,7 @@ class TopArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
     return Flexible(
       flex: 2,
       child: Container(
@@ -13,25 +16,40 @@ class TopArea extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Column(
-              children: const [
+            StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .where('uid', isEqualTo: uid)
+                  .snapshots(),
+              builder: (_, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Text("Loading");
+                }
+                // snapshot.data is QuerySnapshot than I access .docs to get List<QueryDocumentSnapshot>
+                var docs = snapshot.data!.docs;
+                // Accessing single QueryDocumentSnapshot and then using .data() getting its map.
+                final user = docs[0].data();
+                return Column(
+              children:  [
                 Text(
-                  '527',
-                  style: TextStyle(
+                   "${user["adno"]}",
+                  style: const TextStyle(
                     fontSize: 30,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  'Mohammed Abdu Rahoof',
-                  style: TextStyle(
+                   "${user["name"]}",
+                  style: const TextStyle(
                     fontSize: 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
+            );
+              }
             ),
             const CircleAvatar(
               radius: 60,

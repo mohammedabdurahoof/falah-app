@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class ScreenSplash extends StatefulWidget {
-  const ScreenSplash({super.key});
+  const  ScreenSplash({super.key});
 
   @override
   State<ScreenSplash> createState() => _ScreenSplashState();
