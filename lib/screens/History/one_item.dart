@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ItemOne extends StatelessWidget {
-  const ItemOne({super.key});
+  const ItemOne({super.key, required this.history});
+
+  final Map<String, dynamic> history;
 
   @override
   Widget build(BuildContext context) {
@@ -13,29 +16,30 @@ class ItemOne extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const CircleAvatar(
+               CircleAvatar(
                 backgroundColor: Colors.amberAccent,
                 radius: 35,
                 child: Text(
-                  '12 Dec \n 2022',
+                  DateFormat.jms().format(history["date"].toDate()),
+                  // '12 Dec \n 2022',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.white),
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    '₹ 100.00',
-                    style: TextStyle(
+                    "₹ ${history["amount"]}.00",
+                    style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.green),
                   ),
-                  Text(
-                    '10:00 PM',
-                    style: TextStyle(
+                   Text(
+                    DateFormat.yMd().format(history["date"].toDate()),
+                    style: const TextStyle(
                       fontSize: 15,
                     ),
                   ),
@@ -44,41 +48,44 @@ class ItemOne extends StatelessWidget {
               const SizedBox(
                 width: 20,
               ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.history,
-                    color: Colors.red[900],
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    'Pending',
-                    style: TextStyle(
-                        color: Colors.red[900],
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-                // children: [
-                //   Icon(
-                //     Icons.circle,
-                //     color: Colors.blue[900],
-                //     size: 15,
-                //   ),
-                //   SizedBox(
-                //     width: 5,
-                //   ),
-                //   Text(
-                //     'Confrim',
-                //     style: TextStyle(
-                //         color: Colors.blue[900],
-                //         fontSize: 20,
-                //         fontWeight: FontWeight.bold),
-                //   )
-                // ],
-              )
+              history["status"] == "pending"
+                  ? Row(
+                      children: [
+                        Icon(
+                          Icons.history,
+                          color: Colors.red[900],
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'Pending',
+                          style: TextStyle(
+                              color: Colors.red[900],
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    )
+                  : Row(
+                      children: [
+                        Icon(
+                          Icons.circle,
+                          color: Colors.blue[900],
+                          size: 15,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'Confrim',
+                          style: TextStyle(
+                              color: Colors.blue[900],
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    )
             ],
           ),
         ),
