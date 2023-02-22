@@ -24,7 +24,7 @@ class ScreenHome extends StatelessWidget {
           ],),
           const PaidCard(),
           const DebitCard(),
-          const PayCard(),
+           PayCard(),
         ],
       ),
     );

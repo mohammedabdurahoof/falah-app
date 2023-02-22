@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PayCard extends StatelessWidget {
-  const PayCard({super.key});
+  PayCard({super.key});
+  final amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +39,7 @@ class PayCard extends StatelessWidget {
   }
 
   openPopUp(context) {
+    
     showDialog(
       context: context,
       builder: (context) {
@@ -55,7 +59,7 @@ class PayCard extends StatelessWidget {
                   style: TextStyle(fontSize: 20),
                 )),
             TextButton(
-                onPressed: () {Navigator.of(context).pop();},
+                onPressed: () {addPayment(context);},
                 style: TextButton.styleFrom(
                   minimumSize: const Size(100, 50),
                 ),
@@ -67,6 +71,7 @@ class PayCard extends StatelessWidget {
           content: Padding(
             padding: const EdgeInsets.all(15),
             child: TextFormField(
+              controller: amountController,
               keyboardType: TextInputType.number,
               style: const TextStyle(fontSize: 20),
               decoration: const InputDecoration(
@@ -78,5 +83,17 @@ class PayCard extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future addPayment(context)async{
+    CollectionReference payment = FirebaseFirestore.instance.collection('payment');
+    await payment.add({
+      'amount': amountController.text.trim(),
+      'confirmDate':'null',
+      'status': "pending",
+      'uid':FirebaseAuth.instance.currentUser!.uid,
+      'date':  DateTime.now().toLocal()
+
+    }).then((value) => Navigator.of(context).pop());
   }
 }
