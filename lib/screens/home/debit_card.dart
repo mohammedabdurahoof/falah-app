@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DebitCard extends StatelessWidget {
-  const DebitCard({super.key});
+  const DebitCard({super.key, required this.totalPaidAmount, required this.totalMonth});
+  final totalPaidAmount;
+  final totalMonth;
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +16,8 @@ class DebitCard extends StatelessWidget {
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
+                children:  [
+                  const Text(
                     'Debit',
                     style: TextStyle(
                       fontSize: 25,
@@ -24,8 +26,8 @@ class DebitCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '4 Month',
-                    style: TextStyle(
+                    '${totalMonth- totalPaidAmount/100} Month',
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -33,9 +35,9 @@ class DebitCard extends StatelessWidget {
                   )
                 ],
               ),
-              const Text(
-                '₹ 100.00',
-                style: TextStyle(
+              Text(
+                '₹ ${totalMonth*100 - totalPaidAmount}.00',
+                style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color: Colors.red,

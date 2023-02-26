@@ -23,7 +23,7 @@ class TopArea extends StatelessWidget {
                   .snapshots(),
               builder: (_, snapshot) {
                 if (!snapshot.hasData) {
-                  return const Text("Loading");
+                  return const CircularProgressIndicator();
                 }
                 // snapshot.data is QuerySnapshot than I access .docs to get List<QueryDocumentSnapshot>
                 var docs = snapshot.data!.docs;

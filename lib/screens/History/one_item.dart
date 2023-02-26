@@ -38,7 +38,7 @@ class ItemOne extends StatelessWidget {
                         color: Colors.green),
                   ),
                    Text(
-                    DateFormat.yMd().format(history["date"].toDate()),
+                    DateFormat.yMMMd().format(history["date"].toDate()),
                     style: const TextStyle(
                       fontSize: 15,
                     ),

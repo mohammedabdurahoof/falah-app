@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class PercentIndicator extends StatelessWidget {
-  const PercentIndicator({super.key});
+  const PercentIndicator({super.key, required this.percent});
+  final percent;
 
   @override
   Widget build(BuildContext context) {
@@ -11,16 +12,16 @@ class PercentIndicator extends StatelessWidget {
       child: CircularPercentIndicator(
         radius: 150,
         lineWidth: 20,
-        percent: 0.70,
+        percent: percent/100,
         progressColor: Colors.teal,
         center: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children:  [
             Text(
-              '70%',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+              '$percent%',
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
             ),
-            Text(
+            const Text(
               'Payment rate',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
             ),

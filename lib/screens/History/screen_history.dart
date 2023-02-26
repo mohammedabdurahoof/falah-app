@@ -18,7 +18,7 @@ class ScreenHistory extends StatelessWidget {
             .snapshots(),
         builder: (_, snapshot) {
           if (!snapshot.hasData) {
-            return const Text("Loading");
+            return const CircularProgressIndicator();
           }
           // print(snapshot.data!.docs[0].data().runtimeType);
           return ListView.builder(

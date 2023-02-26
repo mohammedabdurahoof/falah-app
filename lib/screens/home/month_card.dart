@@ -4,7 +4,8 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class TotalMonthCard extends StatelessWidget {
-  const TotalMonthCard({super.key});
+  const TotalMonthCard({super.key, required this.totalMonth});
+  final totalMonth;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class TotalMonthCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(19),
         child: Column(
-          children: const [
+          children:  [
             Text(
               'Total Month',
               style: TextStyle(
@@ -23,7 +24,7 @@ class TotalMonthCard extends StatelessWidget {
               ),
             ),
             Text(
-              '115',
+              "$totalMonth",
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.teal,

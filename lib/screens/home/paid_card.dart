@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PaidCard extends StatelessWidget {
-  const PaidCard({super.key});
+  const PaidCard({super.key, required this.totalPaidAmount});
+  final totalPaidAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +15,8 @@ class PaidCard extends StatelessWidget {
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     'Paid',
                     style: TextStyle(
                       fontSize: 25,
@@ -24,8 +25,8 @@ class PaidCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '4 Month',
-                    style: TextStyle(
+                    '${totalPaidAmount / 100} Month',
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -33,9 +34,9 @@ class PaidCard extends StatelessWidget {
                   )
                 ],
               ),
-              const Text(
-                '₹ 100.00',
-                style: TextStyle(
+              Text(
+                "₹ $totalPaidAmount.00",
+                style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color: Colors.green,

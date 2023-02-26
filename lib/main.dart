@@ -35,11 +35,9 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (ctx, snapshot) {
-            print(snapshot.inState(ConnectionState.waiting));
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const ScreenSplash();
             } else if (snapshot.hasError) {
-              print(snapshot.error);
               return const Text('Somthing went wrong');
             } else if (snapshot.hasData) {
               return const ScreenMain();
