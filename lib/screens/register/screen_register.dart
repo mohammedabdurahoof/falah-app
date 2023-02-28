@@ -22,6 +22,8 @@ class _ScreenRegisterState extends State<ScreenRegister> {
   final locationController = TextEditingController();
   final phoneController = TextEditingController();
   final batchController = TextEditingController();
+  final jobController = TextEditingController();
+  final qualificationController = TextEditingController();
 
   @override
   void dispose() {
@@ -32,6 +34,8 @@ class _ScreenRegisterState extends State<ScreenRegister> {
     locationController.dispose();
     phoneController.dispose();
     batchController.dispose();
+    jobController.dispose();
+    qualificationController.dispose();
 
     super.dispose();
   }
@@ -88,6 +92,24 @@ class _ScreenRegisterState extends State<ScreenRegister> {
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         hintText: 'Batch',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    // job
+                    TextFormField(
+                      controller: jobController,
+                      decoration: const InputDecoration(
+                        hintText: 'Job',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    // qualification
+                    TextFormField(
+                      controller: qualificationController,
+                      decoration: const InputDecoration(
+                        hintText: 'Qualification',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -181,11 +203,13 @@ class _ScreenRegisterState extends State<ScreenRegister> {
                     .add({
                       'adno': adnoController.text.trim(),
                       'batch': batchController.text.trim(),
-                      'date': '2023-02-01',
+                      'date': DateTime.utc(2022, 02, 01),
                       'email': emailController.text.trim(),
                       'location': locationController.text.trim(),
                       'name': nameController.text.trim(),
                       'phone': phoneController.text.trim(),
+                      'job': jobController.text.trim(),
+                      'qualification': qualificationController.text.trim(),
                       'uid': value.user!.uid,
                       'type': 'user',
                     })

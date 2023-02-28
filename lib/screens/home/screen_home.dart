@@ -1,5 +1,7 @@
 // import 'dart:ffi';
 
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,7 +24,7 @@ class ScreenHome extends StatefulWidget {
 
 class _ScreenHomeState extends State<ScreenHome> {
   final uid = FirebaseAuth.instance.currentUser!.uid;
-  late int totalMonth;
+  late int _totalMonth = 0;
 
   @override
   void initState() {
@@ -32,12 +34,15 @@ class _ScreenHomeState extends State<ScreenHome> {
         .where('uid', isEqualTo: uid)
         .get()
         .then((val) {
-      if (val.docs.length > 0) {
+      if (val.docs.isNotEmpty) {
         var doc = val.docs[0].data();
-        totalMonth =
+        int totalMonth =
             (DateTime.now().difference(doc['date'].toDate()).inDays / 30)
                 .floor();
-        print(totalMonth);
+        setState(() {
+          _totalMonth = totalMonth; // Future is completed with a value.
+        });
+        print(_totalMonth);
       } else {
         print("Not Found");
       }
@@ -63,23 +68,30 @@ class _ScreenHomeState extends State<ScreenHome> {
                 totalPaidAmount += double.parse(payment[i]['amount']);
               }
 
-              var percent = (totalPaidAmount/(totalMonth*100)*100).floor();
-              percent = percent>100 ? 100 :percent;
+              int percent = 0;
+              if (_totalMonth > 0) {
+                percent = (totalPaidAmount / (_totalMonth * 100) * 100).floor();
+                percent = percent > 100 ? 100 : percent;
+              }
 
               return Column(
                 children: [
                   PercentIndicator(percent: percent),
-                  totalMonth > 0
+                  _totalMonth >= 0
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            TotalMonthCard(totalMonth: totalMonth),
-                            TotalAmountCard(totalMonth: totalMonth),
+                            TotalMonthCard(totalMonth: _totalMonth),
+                            TotalAmountCard(totalMonth: _totalMonth),
                           ],
                         )
                       : const SizedBox(),
                   PaidCard(totalPaidAmount: totalPaidAmount),
-                  DebitCard(totalPaidAmount :totalPaidAmount, totalMonth:totalMonth),
+                  _totalMonth >= 0
+                      ? DebitCard(
+                          totalPaidAmount: totalPaidAmount,
+                          totalMonth: _totalMonth)
+                      : const SizedBox(),
                   PayCard(),
                 ],
               );
