@@ -5,8 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         
-
-
         {
             "name": "Flutter for web",
             "type": "dart",
@@ -17,9 +15,24 @@
                 "chrome"
             ]
         },
+        {
+            "name": "falah_app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "falah_app (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "falah_app (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
     ],
-
-    
     // {
     //     "name": "falah_app",
     //     "request": "launch",

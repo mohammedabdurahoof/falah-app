@@ -24,6 +24,8 @@ class _ScreenRegisterState extends State<ScreenRegister> {
   final batchController = TextEditingController();
   final jobController = TextEditingController();
   final qualificationController = TextEditingController();
+  
+  var batch;
 
   @override
   void dispose() {
@@ -40,8 +42,25 @@ class _ScreenRegisterState extends State<ScreenRegister> {
     super.dispose();
   }
 
+  var batchs = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+  ];
+
   @override
   Widget build(BuildContext context) {
+    var _category;
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
@@ -87,15 +106,42 @@ class _ScreenRegisterState extends State<ScreenRegister> {
                     ),
                     const SizedBox(height: 20),
                     // batch
-                    TextFormField(
-                      controller: batchController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: 'Batch',
-                        border: OutlineInputBorder(),
+                    DropdownButtonFormField(
+                      items: batchs.map((int batch) {
+                        return DropdownMenuItem(
+                            value: batch,
+                            child: Row(
+                              children: <Widget>[
+                                const Text('batch '),
+                                Text(batch.toString()),
+                              ],
+                            ));
+                      }).toList(),
+                      onChanged: (newValue) {
+                        // do other stuff with _category
+                        setState(() => batch = newValue);
+                      },
+                      value: batch,
+                      decoration: InputDecoration(
+                        contentPadding:
+                            const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                        border: const OutlineInputBorder(),
+                        fillColor: Colors.grey[200],
+                        hintText: 'select batch',
+                        //  errorText: errorSnapshot.data == 0 ? Localization.of(context).categoryEmpty : null),
                       ),
                     ),
                     const SizedBox(height: 20),
+
+                    // TextFormField(
+                    //   controller: batchController,
+                    //   keyboardType: TextInputType.number,
+                    //   decoration: const InputDecoration(
+                    //     hintText: 'Batch',
+                    //     border: OutlineInputBorder(),
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 20),
                     // job
                     TextFormField(
                       controller: jobController,
@@ -191,6 +237,22 @@ class _ScreenRegisterState extends State<ScreenRegister> {
 
   Future singUp(context) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
+    List<List<int>> date = [
+      [2022, 02, 01],
+      [2016, 01, 01],
+      [2016, 01, 01],
+      [2016, 01, 01],
+      [2016, 01, 01],
+      [2016, 01, 01],
+      [2016, 01, 01],
+      [2016, 06, 01],
+      [2017, 06, 01],
+      [2018, 05, 01],
+      [2019, 05, 01],
+      [2020, 05, 01],
+      [2021, 04, 01],
+      [2022, 04, 01],
+    ];
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
@@ -202,8 +264,12 @@ class _ScreenRegisterState extends State<ScreenRegister> {
                 users
                     .add({
                       'adno': adnoController.text.trim(),
-                      'batch': batchController.text.trim(),
-                      'date': DateTime.utc(2022, 02, 01),
+                      'batch': batch,
+                      'date': DateTime.utc(
+                        date[batch][0],
+                        date[batch][1],
+                        date[batch][2],
+                      ),
                       'email': emailController.text.trim(),
                       'location': locationController.text.trim(),
                       'name': nameController.text.trim(),

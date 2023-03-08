@@ -1,6 +1,7 @@
 import 'package:falah_app/screens/History/screen_history.dart';
 import 'package:falah_app/screens/Profile/screen_profile.dart';
 import 'package:falah_app/screens/home/screen_home.dart';
+import 'package:falah_app/screens/login/screen_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,10 @@ class _ScreenMainState extends State<ScreenMain> {
       appBar: AppBar(
         title: const Text('FALAH'),
         // leading: Image(image: AssetImage('assets/image/logo.png')),
-        actions: [IconButton(onPressed: () =>FirebaseAuth.instance.signOut(), icon: const Icon(Icons.logout))],
+        actions: [IconButton(onPressed: () =>FirebaseAuth.instance.signOut().then((value) => Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const ScreenLogin()),
+      )), icon: const Icon(Icons.logout))],
       ),
       body: SafeArea(
         child: Center(

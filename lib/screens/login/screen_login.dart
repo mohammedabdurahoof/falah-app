@@ -1,5 +1,8 @@
 // ignore_for_file: avoid_print
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:falah_app/screens/main/screen_main.dart';
+import 'package:falah_app/screens/main/admin_screen_main.dart';
 import 'package:falah_app/screens/register/screen_register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -84,7 +87,8 @@ class _ScreenLoginState extends State<ScreenLogin> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const ScreenRegister()),
+                                    builder: (context) =>
+                                        const ScreenRegister()),
                               );
                             },
                           text: 'Sign up',
@@ -107,10 +111,36 @@ class _ScreenLoginState extends State<ScreenLogin> {
 
   Future singIn() async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
-      );
+      )
+          .then((value) {
+        CollectionReference<Map<String, dynamic>> collection =
+            FirebaseFirestore.instance.collection('users');
+        print(value.user!.uid);
+        collection.where('uid', isEqualTo: value.user!.uid).get().then((value) {
+          var userData = value.docs[0].data();
+          if (userData['type'] == 'admin') {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const AdminScreenMain()),
+              (route) => false,
+            );
+          } else {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const ScreenMain()),
+              (route) => false,
+            );
+          }
+        });
+      });
+      //  => Navigator.pushReplacement(
+      //       context,
+      //       MaterialPageRoute(builder: (context) => const ScreenMain()),
+      //     ));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');

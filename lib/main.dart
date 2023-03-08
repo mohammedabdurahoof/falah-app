@@ -32,19 +32,20 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.teal,
       ),
       // home: const Text('joi'),
-      home: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (ctx, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const ScreenSplash();
-            } else if (snapshot.hasError) {
-              return const Text('Somthing went wrong');
-            } else if (snapshot.hasData) {
-              return const ScreenMain();
-            } else {
-              return const ScreenLogin();
-            }
-          }),
+      home: const ScreenSplash()
+      // StreamBuilder<User?>(
+      //     stream: FirebaseAuth.instance.authStateChanges(),
+      //     builder: (ctx, snapshot) {
+      //       if (snapshot.connectionState == ConnectionState.waiting) {
+      //         return const ScreenSplash();
+      //       } else if (snapshot.hasError) {
+      //         return const Text('Somthing went wrong');
+      //       } else if (snapshot.hasData) {
+      //         return const ScreenMain();
+      //       } else {
+      //         return const ScreenLogin();
+      //       }
+      //     }),
     );
   }
 }
