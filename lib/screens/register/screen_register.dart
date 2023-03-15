@@ -283,10 +283,10 @@ class _ScreenRegisterState extends State<ScreenRegister> {
                     .catchError((error) => print("Failed to add user: $error"))
               });
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MyApp()),
-      );
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => const MyApp()),
+      // );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
